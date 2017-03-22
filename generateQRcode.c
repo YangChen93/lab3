@@ -66,7 +66,7 @@ main(int argc, char * argv[])
 	int hotp_len = 100;
 	int totp_len = 100;
 	hotp_url = (char *) malloc(hotp_len * sizeof(char));
-	hotp_url = (char *) malloc(totp_len * sizeof(char));
+	totp_url = (char *) malloc(totp_len * sizeof(char));
 
 	snprintf(hotp_url, hotp_len, "otpauth://hotp/ACCOUNTNAME?issuer=ISSUER&secret=SECRET&counter=1", encode_accountName, encode_issuer, encode_secret);
 	displayQRcode(hotp_url);
