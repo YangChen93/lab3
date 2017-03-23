@@ -56,23 +56,24 @@ main(int argc, char * argv[])
 	for (i=0; i<(secretarr_length/2);i++){
 		sscanf(gen_secret+2*i, "%02x", &secretarr[i]);
 	}
+	
 
 	const char *encode_issuer = urlEncode(issuer);
 	const char *encode_accountName = urlEncode(accountName);
 	char encode_secret[100];
 
-	int secretencode = base32_encode((uint8_t *) gen_secret, 10, (uint8_t *) encode_secret, 100);
+	int secretencode = base32_encode((uint8_t *) secretarr, 10, (uint8_t *) encode_secret, 100);
 
 	int hotp_len = 100;
 	int totp_len = 100;
 	hotp_url = (char *) malloc(hotp_len * sizeof(char));
 	totp_url = (char *) malloc(totp_len * sizeof(char));
 
-	snprintf(hotp_url, hotp_len, "otpauth://hotp/ACCOUNTNAME?issuer=ISSUER&secret=SECRET&counter=1", encode_accountName, encode_issuer, encode_secret);
+	snprintf(hotp_url, hotp_len, "otpauth://hotp/%s?issuer=%s&secret=%s&counter=1", encode_accountName, encode_issuer, encode_secret);
 	displayQRcode(hotp_url);
 
 
-	snprintf(totp_url, totp_len, "otpauth://totp/ACCOUNTNAME?issuer=ISSUER&secret=SECRET&period=30", encode_accountName, encode_issuer, encode_secret);
+	snprintf(totp_url, totp_len, "otpauth://totp/%s?issuer=%s&secret=%s&period=30", encode_accountName, encode_issuer, encode_secret);
 	displayQRcode(totp_url);
 
 	free(hotp_url);
